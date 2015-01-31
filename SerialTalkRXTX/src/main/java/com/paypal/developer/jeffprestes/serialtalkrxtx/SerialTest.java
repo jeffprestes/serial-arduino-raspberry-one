@@ -24,6 +24,7 @@ public class SerialTest implements SerialPortEventListener {
     private static final String PORT_NAMES[] = {
         "/dev/tty.usbmodem1411", //MacOS
         "/dev/ttyUSB0", // Linux
+        "/dev/ttyACM0", //RaspberryPi
         "COM3", // Windows
     };
     
@@ -41,7 +42,9 @@ public class SerialTest implements SerialPortEventListener {
     
     
     public void initialize()    {
-        
+
+        System.out.println("Initialing...");
+        System.out.println("Scanning ports...");
         CommPortIdentifier portId = null;
         Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
@@ -51,6 +54,7 @@ public class SerialTest implements SerialPortEventListener {
             for (String portName : PORT_NAMES) {
                 if (currPortId.getName().equals(portName)) {
                     portId = currPortId;
+                    System.out.println("Port found: " + portId.getName());
                     break;
                 }
             }
@@ -62,9 +66,11 @@ public class SerialTest implements SerialPortEventListener {
         }
 
         try {
+            System.out.println("Opening port " + portId.getName());
             // open serial port, and use class name for the appName.
             serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 
+            System.out.println("Port opened...");
             // set port parameters
             serialPort.setSerialPortParams(DATA_RATE,
                     SerialPort.DATABITS_8,
@@ -75,9 +81,11 @@ public class SerialTest implements SerialPortEventListener {
             input = serialPort.getInputStream();
             output = serialPort.getOutputStream();
 
+            System.out.println("Adding event listener...");
             // add event listeners
             serialPort.addEventListener(this);
             serialPort.notifyOnDataAvailable(true);
+            System.out.println("Listener added.");
             
         } catch (Exception e) {
             System.err.println(e.toString());
@@ -104,6 +112,7 @@ public class SerialTest implements SerialPortEventListener {
     @Override
     public synchronized void serialEvent(SerialPortEvent spe) {
 
+        System.out.println("Event happened: " + spe.getEventType());
         if (spe.getEventType() == SerialPortEvent.DATA_AVAILABLE)   {
             try     {
                 int available = input.available();
@@ -116,7 +125,7 @@ public class SerialTest implements SerialPortEventListener {
                 System.err.println(ex.getMessage());
                 ex.printStackTrace();
             }
-        }
+        }   
     }
     
     
