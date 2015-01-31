@@ -47,7 +47,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.paypal.developer.jeffprestes.serialtalkrxtx.SerialTest</mainClass>                            
+                            <mainClass>com.paypal.developer.jeffprestes.serialtalkrxtx.TwoWaySerialComm</mainClass>                            
                         </manifest>
                     </archive>
                 </configuration>
@@ -60,7 +60,7 @@
                   </descriptorRefs>
                   <archive>
                     <manifest>
-                      <mainClass>com.paypal.developer.jeffprestes.serialtalkrxtx.SerialTest</mainClass>
+                      <mainClass>com.paypal.developer.jeffprestes.serialtalkrxtx.TwoWaySerialComm</mainClass>
                     </manifest>
                   </archive>
                 </configuration>
